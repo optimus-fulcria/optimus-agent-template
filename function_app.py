@@ -31,6 +31,13 @@ try:
 except ImportError:
     A2A_AVAILABLE = False
 
+# Import Azure AI integration
+try:
+    from azure_ai_integration import AzureAIIntegration, get_demo_metrics
+    AZURE_AI_AVAILABLE = True
+except ImportError:
+    AZURE_AI_AVAILABLE = False
+
 app = func.FunctionApp()
 
 # Storage configuration
@@ -331,6 +338,8 @@ async def root(req: func.HttpRequest) -> func.HttpResponse:
             "GET /api/history": "Recent wake cycle history",
             "GET /api/mcp": "MCP server integration status",
             "GET /api/a2a": "A2A marketplace integration and revenue",
+            "GET /api/ai": "Azure AI integration status",
+            "POST /api/ai/plan": "AI-powered task planning demo",
             "POST /api/task": "Add a new task to the backlog",
             "POST /api/wake": "Manually trigger a wake cycle"
         },
@@ -389,6 +398,87 @@ async def get_a2a_status(req: func.HttpRequest) -> func.HttpResponse:
         }, indent=2),
         mimetype="application/json"
     )
+
+
+@app.route(route="ai", methods=["GET"])
+async def get_ai_status(req: func.HttpRequest) -> func.HttpResponse:
+    """
+    HTTP endpoint showing Azure AI integration.
+
+    Demonstrates how the agent uses Azure OpenAI for:
+    - Task planning and decomposition
+    - Content generation
+    - Code review and self-improvement
+    - Complex reasoning and decision making
+
+    This showcases Microsoft ecosystem integration for the hackathon.
+    """
+    if not AZURE_AI_AVAILABLE:
+        return func.HttpResponse(
+            json.dumps({"error": "Azure AI module not available"}),
+            status_code=500,
+            mimetype="application/json"
+        )
+
+    ai = AzureAIIntegration()
+
+    return func.HttpResponse(
+        json.dumps({
+            "azure_ai_status": ai.get_status(),
+            "demo_metrics": get_demo_metrics(),
+            "description": "Azure OpenAI integration for agent reasoning and content generation",
+            "microsoft_ecosystem": {
+                "compute": "Azure Functions",
+                "storage": "Azure Blob Storage",
+                "ai": "Azure OpenAI Service",
+                "monitoring": "Azure Application Insights",
+                "cicd": "GitHub Actions"
+            },
+            "hackathon_relevance": "Demonstrates deep Microsoft ecosystem integration"
+        }, indent=2),
+        mimetype="application/json"
+    )
+
+
+@app.route(route="ai/plan", methods=["POST"])
+async def ai_plan_task(req: func.HttpRequest) -> func.HttpResponse:
+    """
+    HTTP endpoint to demonstrate AI-powered task planning.
+
+    POST body should contain:
+    {
+        "task": "Description of the task to plan",
+        "context": {"optional": "context data"}
+    }
+    """
+    if not AZURE_AI_AVAILABLE:
+        return func.HttpResponse(
+            json.dumps({"error": "Azure AI module not available"}),
+            status_code=500,
+            mimetype="application/json"
+        )
+
+    try:
+        body = req.get_json()
+        task = body.get("task", "Plan an autonomous agent wake cycle")
+        context = body.get("context", {})
+
+        ai = AzureAIIntegration()
+        plan = await ai.plan_task(task, context)
+
+        return func.HttpResponse(
+            json.dumps({
+                "success": True,
+                "plan": plan
+            }, indent=2),
+            mimetype="application/json"
+        )
+    except ValueError:
+        return func.HttpResponse(
+            json.dumps({"error": "Invalid JSON"}),
+            status_code=400,
+            mimetype="application/json"
+        )
 
 
 @app.route(route="task", methods=["POST"])

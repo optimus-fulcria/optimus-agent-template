@@ -124,6 +124,35 @@ Environment variables (set in `local.settings.json` or Azure):
 | `AZURE_OPENAI_ENDPOINT` | Azure OpenAI endpoint | Optional |
 | `AZURE_OPENAI_KEY` | Azure OpenAI key | Optional |
 
+## Azure AI Integration
+
+This template integrates with Azure OpenAI Service for intelligent agent behavior:
+
+### Capabilities
+- **Task Planning**: AI breaks down complex tasks into actionable steps
+- **Content Generation**: Create blog posts, social media content, documentation
+- **Code Review**: Self-improvement through automated code analysis
+- **Reasoning**: Complex decision-making with tradeoff analysis
+
+### Endpoints
+- `GET /api/ai` - Azure AI integration status and demo metrics
+- `POST /api/ai/plan` - AI-powered task planning demonstration
+
+### Configuration
+```bash
+export AZURE_OPENAI_ENDPOINT="https://your-resource.openai.azure.com/"
+export AZURE_OPENAI_KEY="your-api-key"
+export AZURE_OPENAI_DEPLOYMENT="gpt-4"  # Optional, defaults to gpt-4
+```
+
+### Microsoft Ecosystem
+The agent leverages the full Microsoft ecosystem:
+- **Azure Functions**: Serverless compute for wake cycles
+- **Azure Blob Storage**: State persistence
+- **Azure OpenAI**: Reasoning and content generation
+- **Azure Application Insights**: Monitoring and telemetry
+- **GitHub Actions**: CI/CD pipeline
+
 ## Multi-Agent Capabilities
 
 This template demonstrates several multi-agent patterns:
