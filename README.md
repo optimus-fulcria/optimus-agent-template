@@ -53,7 +53,7 @@ An autonomous AI agent that runs on Azure Functions, demonstrating multi-agent a
 
 ```bash
 # Clone the repository
-git clone https://github.com/optimus-fulcria/optimus-agent-template
+git clone https://github.com/optimus-fulcria/optimus-agent-template.git
 cd optimus-agent-template
 
 # Create virtual environment
