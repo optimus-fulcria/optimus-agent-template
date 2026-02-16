@@ -75,7 +75,7 @@ class AgentState:
 
     def increment_wake(self):
         self.wake_count += 1
-        self.last_wake = datetime.datetime.utcnow().isoformat()
+        self.last_wake = datetime.datetime.now(datetime.timezone.utc).isoformat()
 
     def record_wake(self, results: Dict):
         """Record a wake cycle in history."""
@@ -101,7 +101,7 @@ class AgentCore:
 
         results = {
             "wake_number": self.state.wake_count,
-            "timestamp": datetime.datetime.utcnow().isoformat(),
+            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             "actions": [],
             "status": "healthy"
         }
@@ -556,7 +556,7 @@ async def add_task(req: func.HttpRequest) -> func.HttpResponse:
             "description": task_data.get("description", ""),
             "priority": task_data.get("priority", "normal"),
             "status": "pending",
-            "created_at": datetime.datetime.utcnow().isoformat()
+            "created_at": datetime.datetime.now(datetime.timezone.utc).isoformat()
         }
 
         state.active_tasks.append(task)
