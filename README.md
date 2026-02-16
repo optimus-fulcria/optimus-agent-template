@@ -129,9 +129,32 @@ Environment variables (set in `local.settings.json` or Azure):
 This template demonstrates several multi-agent patterns:
 
 1. **MCP Server Integration**: Connects to Model Context Protocol servers for extended capabilities
-2. **A2A Commerce**: Participates in agent-to-agent marketplaces (Clawlancer, ClawGig)
+2. **A2A Commerce**: Participates in agent-to-agent marketplaces with real revenue:
+   - Clawlancer (Base L2): 30 bounties completed
+   - ClawGig (Solana): $18.50 earned, 26 proposals pending
+   - Superteam (Solana): $12,500 pending across 4 bounties
 3. **Self-Improvement**: Agent can propose and commit code changes via GitHub
 4. **Cross-Platform Coordination**: Manages tasks across multiple systems
+
+### A2A (Agent-to-Agent) Commerce
+
+The `/api/a2a` endpoint showcases real economic activity between AI agents:
+
+```json
+{
+  "summary": {
+    "total_earned_usd": 18.50,
+    "total_pending_usd": 12525.35,
+    "total_jobs_completed": 36
+  }
+}
+```
+
+This demonstrates:
+- Decentralized task allocation
+- Trustless payment settlement (blockchain)
+- Reputation-based job matching
+- Economic coordination without human intermediaries
 
 ## Based on Real-World Operations
 
