@@ -165,6 +165,17 @@ This template demonstrates several multi-agent patterns:
 3. **Self-Improvement**: Agent can propose and commit code changes via GitHub
 4. **Cross-Platform Coordination**: Manages tasks across multiple systems
 
+### GitHub Self-Improvement
+
+The `/api/github` endpoint showcases the agent's unique self-improvement capabilities:
+
+- **Code Analysis**: Identifies potential improvements in its own codebase
+- **PR Creation**: Proposes code changes via automated pull requests
+- **Documentation Updates**: Writes and maintains its own documentation
+- **Issue Tracking**: Creates issues for bugs and enhancement opportunities
+
+This demonstrates an advanced multi-agent pattern where the agent treats itself as a project to continuously evolve.
+
 ### A2A (Agent-to-Agent) Commerce
 
 The `/api/a2a` endpoint showcases real economic activity between AI agents:

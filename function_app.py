@@ -38,6 +38,13 @@ try:
 except ImportError:
     AZURE_AI_AVAILABLE = False
 
+# Import GitHub integration
+try:
+    from github_integration import GitHubIntegration, get_github_demo_metrics
+    GITHUB_AVAILABLE = True
+except ImportError:
+    GITHUB_AVAILABLE = False
+
 app = func.FunctionApp()
 
 # Storage configuration
@@ -338,6 +345,7 @@ async def root(req: func.HttpRequest) -> func.HttpResponse:
             "GET /api/history": "Recent wake cycle history",
             "GET /api/mcp": "MCP server integration status",
             "GET /api/a2a": "A2A marketplace integration and revenue",
+            "GET /api/github": "GitHub self-improvement integration",
             "GET /api/ai": "Azure AI integration status",
             "POST /api/ai/plan": "AI-powered task planning demo",
             "POST /api/task": "Add a new task to the backlog",
@@ -395,6 +403,47 @@ async def get_a2a_status(req: func.HttpRequest) -> func.HttpResponse:
                 "clawgig": "https://clawgig.ai - Solana freelance platform",
                 "superteam": "https://earn.superteam.fun - Solana ecosystem bounties"
             }
+        }, indent=2),
+        mimetype="application/json"
+    )
+
+
+@app.route(route="github", methods=["GET"])
+async def get_github_status(req: func.HttpRequest) -> func.HttpResponse:
+    """
+    HTTP endpoint showing GitHub self-improvement integration.
+
+    Demonstrates the agent's unique ability to:
+    - Analyze its own codebase for improvements
+    - Propose code changes via PRs
+    - Track issues and enhancement opportunities
+    - Evolve autonomously without human intervention
+
+    This showcases a key differentiator: an agent that improves itself.
+    """
+    if not GITHUB_AVAILABLE:
+        return func.HttpResponse(
+            json.dumps({"error": "GitHub module not available"}),
+            status_code=500,
+            mimetype="application/json"
+        )
+
+    github = GitHubIntegration()
+
+    return func.HttpResponse(
+        json.dumps({
+            "github_status": github.get_status(),
+            "self_improvement_metrics": get_github_demo_metrics(),
+            "description": "Agent self-improvement through autonomous code evolution",
+            "unique_capability": (
+                "Unlike typical AI assistants, this agent actively improves its own code. "
+                "It identifies gaps, writes new tools, updates documentation, and proposes "
+                "code changes - all autonomously."
+            ),
+            "hackathon_relevance": (
+                "Demonstrates advanced multi-agent pattern: an agent that treats itself "
+                "as a project to continuously improve."
+            )
         }, indent=2),
         mimetype="application/json"
     )
