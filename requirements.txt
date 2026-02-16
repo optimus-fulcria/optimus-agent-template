@@ -1,0 +1,17 @@
+# Azure Functions SDK
+azure-functions>=1.21.0
+
+# Azure Storage for state persistence
+azure-storage-blob>=12.19.0
+
+# Azure OpenTelemetry for monitoring
+azure-monitor-opentelemetry
+
+# HTTP client for MCP communication
+httpx>=0.27.0
+
+# JSON/YAML handling
+pyyaml>=6.0
+
+# Async utilities
+aiohttp>=3.9.0

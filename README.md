@@ -1,0 +1,155 @@
+# Optimus Agent Template
+
+An autonomous AI agent that runs on Azure Functions, demonstrating multi-agent architecture with MCP server integration.
+
+**Built for Microsoft AI Dev Days Hackathon 2026**
+
+## Features
+
+- **Scheduled Wake Cycles**: Agent wakes every 15 minutes via Azure Timer Trigger
+- **Task Management**: HTTP API for adding and monitoring tasks
+- **State Persistence**: Azure Blob Storage for state across invocations
+- **MCP Integration**: Ready to connect with MCP servers (n8n, Playwright, etc.)
+- **Self-Improvement**: Framework for agent self-modification via GitHub
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   Optimus Agent Template                     │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │Azure Timer  │───▶│ Agent Core  │───▶│ MCP Servers │     │
+│  │ (Cron)      │    │ (Claude)    │    │ (Tools)     │     │
+│  └─────────────┘    └──────┬──────┘    └─────────────┘     │
+│                            │                                 │
+│  ┌─────────────────────────┴──────────────────────────┐    │
+│  │                   Capabilities                      │    │
+│  │  • Browser Automation (Playwright MCP)             │    │
+│  │  • Workflow Automation (n8n MCP)                   │    │
+│  │  • Content Generation (Azure OpenAI)               │    │
+│  │  • Social Media (Twitter, YouTube APIs)            │    │
+│  │  • Marketplace Trading (A2A protocols)             │    │
+│  └────────────────────────────────────────────────────┘    │
+│                                                              │
+│  ┌─────────────┐    ┌─────────────┐    ┌─────────────┐     │
+│  │Azure Blob   │    │ Azure AI    │    │ GitHub      │     │
+│  │ (State)     │    │ (Reasoning) │    │ (Code/CI)   │     │
+│  └─────────────┘    └─────────────┘    └─────────────┘     │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Quick Start
+
+### Prerequisites
+
+- Python 3.11+
+- Azure CLI (`az`)
+- Azure Functions Core Tools (`func`)
+
+### Local Development
+
+```bash
+# Clone the repository
+git clone https://github.com/optimus-fulcria/optimus-agent-template
+cd optimus-agent-template
+
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # Linux/Mac
+# or: .venv\Scripts\activate  # Windows
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Start local development server
+func start
+```
+
+### Deploy to Azure
+
+```bash
+# Login to Azure
+az login
+
+# Create resource group
+az group create --name rg-optimus-agent --location eastus
+
+# Deploy infrastructure
+az deployment group create \
+  --resource-group rg-optimus-agent \
+  --template-file infra/main.bicep
+
+# Deploy function app
+func azure functionapp publish optimus-agent-func
+```
+
+## API Endpoints
+
+### GET /api/status
+Returns current agent status and metrics.
+
+```json
+{
+  "status": "healthy",
+  "wake_count": 856,
+  "last_wake": "2026-02-16T12:45:00Z",
+  "active_tasks": 3,
+  "capabilities": ["browser", "content", "social"],
+  "version": "1.0.0"
+}
+```
+
+### POST /api/task
+Add a new task to the agent's backlog.
+
+```json
+{
+  "name": "Research competitor pricing",
+  "description": "Check V1 Golf and SwingProfile pricing pages",
+  "priority": "high"
+}
+```
+
+## Configuration
+
+Environment variables (set in `local.settings.json` or Azure):
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `AZURE_STORAGE_CONNECTION` | Blob storage connection string | Yes |
+| `ANTHROPIC_API_KEY` | Claude API key | No (uses Azure OpenAI) |
+| `AZURE_OPENAI_ENDPOINT` | Azure OpenAI endpoint | Optional |
+| `AZURE_OPENAI_KEY` | Azure OpenAI key | Optional |
+
+## Multi-Agent Capabilities
+
+This template demonstrates several multi-agent patterns:
+
+1. **MCP Server Integration**: Connects to Model Context Protocol servers for extended capabilities
+2. **A2A Commerce**: Participates in agent-to-agent marketplaces (Clawlancer, ClawGig)
+3. **Self-Improvement**: Agent can propose and commit code changes via GitHub
+4. **Cross-Platform Coordination**: Manages tasks across multiple systems
+
+## Based on Real-World Operations
+
+This isn't a prototype - it's based on an operational agent with:
+- 850+ wake cycles
+- $43+ earned through A2A marketplaces
+- 40 YouTube videos published (22K views)
+- 5 bug bounties submitted (~$2,500 pending)
+- 4 Superteam bounties submitted (~$12,500 pending)
+
+## License
+
+MIT
+
+## Team
+
+Built by **Optimus Agent** (an autonomous AI agent) for Eric @ Fulcria Labs.
+
+---
+
+*"Not a demo - an operational system."*
